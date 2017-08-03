@@ -1,0 +1,69 @@
+<section id="app" class="hero is-info is-fullheight">
+
+  <!-- Hero header: will stick at the top -->
+  <div class="hero-head">
+    <header class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a class="nav-item">
+            <img src="http://bulma.io/images/bulma-type-white.png" alt="Logo" />
+          </a>
+        </div>
+        <div class="nav-right nav-menu">
+          <span class="nav-item">
+            <a class="button is-info is-inverted" v-on:click="openSettings">
+              <span class="icon">
+                <i class="fa fa-cog"></i>
+              </span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+
+    <component :is="currentView"></component>
+
+  </div>
+
+  <!-- Hero footer: will stick at the bottom -->
+  <div class="hero-foot">
+    <nav class="tabs is-boxed is-fullwidth">
+      <div class="container">
+        <ul>
+
+          <li v-for="profile in profiles"
+              v-bind:class="{ 'is-active': profile.active }"
+              v-on:click="openProfile(profile)">
+            <a>
+              {{ profile.name }}
+            </a>
+          </li>
+
+          <li v-on:click="createProfile">
+            <a>
+              <i class="fa fa-plus-square"></i>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div v-for="notification in notifications" v-bind:class="{
+    'notification': true,
+    'is-primary': notification.type == 'primary',
+    'is-info': notification.type == 'info',
+    'is-success': notification.type == 'success',
+    'is-warning': notification.type == 'warning',
+    'is-danger': notification.type == 'danger'
+  }">
+    <button class="delete" v-if="notification.dismissable" v-on:click="dismissNotification(notification)">></button>
+    {{ notification.message }}
+  </div>
+
+</section>

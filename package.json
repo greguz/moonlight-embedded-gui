@@ -1,0 +1,30 @@
+{
+  "name": "moonlight-embedded-gui",
+  "version": "0.1.0",
+  "description": "Moonlight embedded GUI written with Electron",
+  "main": "index.js",
+  "author": "Giacomo Gregoletto",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^1.6.11",
+    "electron-is-dev": "^0.3.0",
+    "eslint": "^4.3.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "html-loader": "^0.5.0",
+    "uuid": "^3.1.0",
+    "vue": "^2.4.2",
+    "vuex": "^2.3.1",
+    "webpack": "^3.4.1"
+  },
+  "scripts": {
+    "start": "electron out/main.js",
+    "lint": "eslint app/**/*.js",
+    "bundle": "webpack",
+    "watch": "webpack --watch"
+  }
+}
