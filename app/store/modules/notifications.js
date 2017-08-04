@@ -4,11 +4,7 @@ import uuid from 'uuid/v4'
  * Base state on store creation
  */
 
-export const state = [{
-  type: 'warning',
-  message: 'Test 1 2 3 4',
-  dismissable: true
-}]
+export const state = []
 
 /**
  * Computed properties
@@ -26,36 +22,21 @@ export const mutations = {
    * create a new notification
    */
 
-  createNotification (state, options) {
-    options = Object.assign(
-      {
-        type: 'warning',
-        message: 'EMPTY NOTIFICATION',
-        dismissable: true
-      },
-      options,
-      {
-        id: uuid()
-      }
-    )
-
-    state.push(options)
+  createNotification (state, { type = 'warning', message, dismissable = true }) {
+    state.push({
+      id: uuid(),
+      type,
+      message,
+      dismissable
+    })
   },
 
   /**
-   * delete single notification
+   * delete notification
    */
 
-  deleteNotification (state, notification) {
-    state.splice(state.findIndex(n => n.id === notification.id), 1)
-  },
-
-  /**
-   * delete all notifications
-   */
-
-  deleteAllNotifications (state) {
-    state.splice(0, state.length)
+  deleteNotification (state, { id }) {
+    state.splice(state.findIndex(n => n.id === id), 1)
   }
 
 }
@@ -66,22 +47,20 @@ export const mutations = {
 
 export const actions = {
 
-  showNewNotification ({ commit, dispatch, getters, state }, options) {
-    options = Object.assign({
-      timeout: 5 * 1000
-    }, options)
+  /**
+   * create notification and dismiss it after timeout
+   */
 
-    commit('createNotification', options)
+  showNewNotification ({ commit, dispatch, getters, state }, { type, message, dismissable, timeout = 5000 }) {
+    commit('createNotification', {
+      type,
+      message,
+      dismissable
+    })
 
-    if (options.timeout) {
-      return new Promise(resolve => {
-        const notification = state[ state.length - 1 ]
-
-        setTimeout(() => {
-          commit('deleteNotification', notification)
-          resolve()
-        }, options.timeout)
-      })
+    if (timeout) {
+      const notification = state[ state.length - 1 ]
+      setTimeout(() => commit('deleteNotification', notification), timeout)
     }
   }
 
