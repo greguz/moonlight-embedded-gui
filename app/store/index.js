@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import isDev from 'electron-is-dev'
 
 import * as command from './modules/command'
 import * as moonlight from './modules/moonlight'
@@ -11,7 +12,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 
-  strict: true,
+  strict: isDev,
 
   state: { },
 
@@ -29,6 +30,6 @@ export default new Vuex.Store({
     settings
   },
 
-  plugins: [] // TODO persistent storage
+  plugins: [] // TODO debug, persistent storage
 
 })
