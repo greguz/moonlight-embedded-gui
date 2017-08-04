@@ -24,4 +24,5 @@ Electron GUI for [moonlight embedded](https://github.com/irtimmer/moonlight-embe
 - profile page
 - production mode
 - tests!!!!!!!!!!!!!
+- i18n (italian, english)
 - am I missing something?
