@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import path from 'path'
 import url from 'url'
+import isDev from 'electron-is-dev'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -11,7 +12,7 @@ function createWindow () {
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    kiosk: false
+    kiosk: !isDev
   })
 
   // and load the index.html of the app.
@@ -22,7 +23,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  if (isDev) win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
