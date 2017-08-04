@@ -25,7 +25,7 @@ export const CODEC = {
 export const DEBUG = {
   OFF: 0,
   LOW: 1,
-  HIGH: 1,
+  HIGH: 2,
   properties: {
     0: { value: 'silent' },
     1: { value: 'verbose' },
