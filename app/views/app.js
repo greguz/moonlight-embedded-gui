@@ -1,6 +1,7 @@
 import template from './app.html'
 import Settings from './settings'
 import Profile from './profile'
+import Notification from '../components/notification'
 
 export default {
 
@@ -9,7 +10,7 @@ export default {
   computed: {
 
     currentView: function () {
-      return this.$store.getters.getActiveProfile ? 'Profile' : 'Settings'
+      return this.$store.getters.activeProfile ? 'profile-view' : 'settings-view'
     },
 
     profiles: function () {
@@ -38,15 +39,16 @@ export default {
       }
     },
 
-    dismissNotification: function (notifications) {
-      this.$store.commit('deleteNotification', notifications)
+    dismissNotification: function (notification) {
+      this.$store.commit('deleteNotification', notification)
     }
 
   },
 
   components: {
-    Settings,
-    Profile
+    'notification': Notification,
+    'settings-view': Settings,
+    'profile-view': Profile
   }
 
 }

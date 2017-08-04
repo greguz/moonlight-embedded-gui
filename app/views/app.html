@@ -24,9 +24,7 @@
 
   <!-- Hero content: will be in the middle -->
   <div class="hero-body">
-
     <component :is="currentView"></component>
-
   </div>
 
   <!-- Hero footer: will stick at the bottom -->
@@ -54,16 +52,14 @@
     </nav>
   </div>
 
-  <div v-for="notification in notifications" v-bind:class="{
-    'notification': true,
-    'is-primary': notification.type == 'primary',
-    'is-info': notification.type == 'info',
-    'is-success': notification.type == 'success',
-    'is-warning': notification.type == 'warning',
-    'is-danger': notification.type == 'danger'
-  }">
-    <button class="delete" v-if="notification.dismissable" v-on:click="dismissNotification(notification)">></button>
-    {{ notification.message }}
-  </div>
+  <notification
+    v-for="n in notifications"
+    :key="n.id"
+    :type="n.type"
+    :message="n.message"
+    :dismissable="n.dismissable"
+    v-on:dismiss="dismissNotification(n)"
+    >
+  </notification>
 
 </section>

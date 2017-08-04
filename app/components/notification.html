@@ -1,0 +1,4 @@
+<div v-bind:class="[ 'notification', 'is-' + type ]">
+  <button class="delete" v-if="dismissable" v-on:click="dismiss"></button>
+  <span v-html="message"></span>
+</div>
