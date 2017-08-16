@@ -15,14 +15,17 @@ Electron GUI for [moonlight embedded](https://github.com/irtimmer/moonlight-embe
 - Arch linux
 - **moonlight** installed
 
-## TODO
+## TODOs
 
-- Gulp.js
-- persistent storage
-- moonlight CLI parsing (like get pairing code from STDOUT)
-- settings page
-- profile page
-- production mode
-- tests!!!!!!!!!!!!!
-- i18n (italian, english)
-- am I missing something?
+- [ ] *Vue* debug tools
+- [ ] *Gulp* integration
+- [x] *Vuex* store persistence
+- [ ] **pair** command
+- [ ] **unpair** command
+- [ ] **stream** command
+- [ ] **quit** command
+- [ ] **list** command (list all available applications)
+- [ ] i18n (italian and english)
+- [ ] UI (components, CSS, main views)
+- [ ] tests
+- [ ] production mode (electron package, webpack optimizations)
