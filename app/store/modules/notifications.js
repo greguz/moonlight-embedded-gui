@@ -51,17 +51,21 @@ export const actions = {
    * create notification and dismiss it after timeout
    */
 
-  showNewNotification ({ commit, dispatch, getters, state }, { type, message, dismissable, timeout = 5000 }) {
+  showNotification ({ commit, dispatch, getters, state }, { type, message, dismissable, timeout = 5000 }) {
     commit('createNotification', {
       type,
       message,
       dismissable
     })
 
-    if (timeout) {
-      const notification = state[ state.length - 1 ]
-      setTimeout(() => commit('deleteNotification', notification), timeout)
-    }
+    const notification = state[ state.length - 1 ]
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        commit('deleteNotification', notification)
+        resolve()
+      }, timeout)
+    })
   }
 
 }
