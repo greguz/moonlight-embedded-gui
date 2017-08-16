@@ -8,24 +8,24 @@ export default {
 
     name: {
       get: function () {
-        return this.$store.getters.getActiveProfile.name
+        return this.$store.getters.activeProfile.name
       },
-      set: function (value) {
-        this.$store.commit('updateProfile', { name: value })
+      set: function (name) {
+        this.$store.commit('updateProfile', { name })
       }
     },
 
     host: {
       get: function () {
-        return this.$store.getters.getActiveProfile.host
+        return this.$store.getters.activeProfile.host
       },
-      set: function (value) {
-        this.$store.commit('updateProfile', { host: value })
+      set: function (host) {
+        this.$store.commit('updateProfile', { host })
       }
     },
 
     paired: function () {
-      return this.$store.getters.getActiveProfile.paired
+      return this.$store.getters.activeProfile.paired
     }
 
   }

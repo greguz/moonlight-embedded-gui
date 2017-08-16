@@ -16,7 +16,7 @@ export const getters = {
    * get currently active profile
    */
 
-  getActiveProfile (state, getters) {
+  activeProfile (state, getters) {
     for (let profile of state) {
       if (profile.active) return profile
     }
