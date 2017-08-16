@@ -8,6 +8,8 @@ import * as notifications from './modules/notifications'
 import * as profiles from './modules/profiles'
 import * as settings from './modules/settings'
 
+import persistencePlugin from './plugins/persistence'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -30,6 +32,8 @@ export default new Vuex.Store({
     settings
   },
 
-  plugins: [] // TODO debug, persistent storage
+  plugins: [
+    persistencePlugin
+  ]
 
 })
