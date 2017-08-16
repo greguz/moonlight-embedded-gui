@@ -6,7 +6,7 @@ import * as ENUMS from '../../enums/moonlight'
  * @return {string[]}
  */
 
-function getOptionsFromState (state) {
+function getMoonlightOptionsFromState (state) {
   let options = []
 
   // screen resolution
@@ -91,7 +91,17 @@ export const getters = { }
  * Store mutation functions
  */
 
-export const mutations = { }
+export const mutations = {
+
+  /**
+   * TODO docs
+   */
+
+  updateMoonlightOptions (state, data) {
+    Object.assign(state, data)
+  }
+
+}
 
 /**
  * Async store functions
@@ -103,18 +113,12 @@ export const actions = {
    * Spawn a new moonlight command instance
    */
 
-  spawnMoonlight ({ commit, dispatch, getters, state }, data) {
-    let profile = data.profile || getters.getActiveProfile()
-
-    if (!profile) {
-      return Promise.reject(new Error('Missing host profile'))
-    }
-
+  spawnMoonlight ({ commit, dispatch, getters, state }, { action, profile }) {
     return dispatch('spawnCommand', {
       command: 'moonlight',
       args: [
-        data.action,
-        ...data.options,
+        action,
+        ...getMoonlightOptionsFromState(state),
         profile.host
       ],
       options: {
@@ -128,15 +132,9 @@ export const actions = {
    * Pair this computer with the host
    */
 
-  pair ({ commit, dispatch, getters, state }, data) {
-    let profile = getters.getActiveProfile()
-
-    if (!profile) {
-      return Promise.reject(new Error('Missing host profile'))
-    }
-
+  pair ({ commit, dispatch, getters, state }, profile) {
     if (profile.paired) {
-      return Promise.reject(new Error('Already paired'))
+      return Promise.reject(new Error('Profile is already paired'))
     }
 
     return dispatch('spawnMoonlight', {
@@ -149,15 +147,9 @@ export const actions = {
    * Unpair this computer with the host
    */
 
-  unpair ({ commit, dispatch, getters, state }, data) {
-    let profile = getters.getActiveProfile()
-
-    if (!profile) {
-      return Promise.reject(new Error('Missing host profile'))
-    }
-
-    if (profile.paired) {
-      return Promise.reject(new Error('Already paired'))
+  unpair ({ commit, dispatch, getters, state }, profile) {
+    if (!profile.paired) {
+      return Promise.reject(new Error('This profile is not paired'))
     }
 
     return dispatch('spawnMoonlight', {
@@ -170,21 +162,14 @@ export const actions = {
    * Stream game from host to this computer
    */
 
-  stream ({ commit, dispatch, getters, state }, data) {
-    let profile = getters.getActiveProfile()
-
-    if (!profile) {
-      return Promise.reject(new Error('Missing host profile'))
-    }
-
+  stream ({ commit, dispatch, getters, state }, profile) {
     if (!profile.paired) {
-      return Promise.reject(new Error('Not paired'))
+      return Promise.reject(new Error('This profile is not paired'))
     }
 
     return dispatch('spawnMoonlight', {
       action: 'stream',
-      profile,
-      options: getOptionsFromState(state)
+      profile
     })
   },
 
@@ -192,16 +177,30 @@ export const actions = {
    * List all available games and application on host
    */
 
-  list () {
-    throw new Error()
+  list ({ commit, dispatch, getters, state }, profile) {
+    if (!profile.paired) {
+      return Promise.reject(new Error('This profile is not paired'))
+    }
+
+    return dispatch('spawnMoonlight', {
+      action: 'list',
+      profile
+    })
   },
 
   /**
    * Quit the current running game or application on host
    */
 
-  quit () {
-    throw new Error()
+  quit ({ commit, dispatch, getters, state }, profile) {
+    if (!profile.paired) {
+      return Promise.reject(new Error('This profile is not paired'))
+    }
+
+    return dispatch('spawnMoonlight', {
+      action: 'quit',
+      profile
+    })
   }
 
 }
