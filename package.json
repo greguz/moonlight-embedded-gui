@@ -16,17 +16,19 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "fs-extra": "^4.0.1",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.0",
     "html-loader": "^0.5.1",
     "uuid": "^3.1.0",
     "vue": "^2.4.2",
     "vuex": "^2.3.1",
     "vuex-persist": "^0.1.8",
-    "webpack": "^3.5.4"
+    "webpack": "^3.5.4",
+    "webpack-stream": "^4.0.0"
   },
   "scripts": {
     "start": "electron out/main.js",
-    "lint": "eslint app/**/*.js",
-    "bundle": "webpack",
-    "watch": "webpack --watch"
+    "lint": "gulp lint",
+    "bundle": "gulp bundle"
   }
 }

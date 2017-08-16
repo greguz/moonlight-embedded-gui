@@ -18,7 +18,8 @@ Electron GUI for [moonlight embedded](https://github.com/irtimmer/moonlight-embe
 ## TODOs
 
 - [ ] *Vue* debug tools
-- [ ] *Gulp* integration
+- [x] *Gulp* integration
+- [ ] file watcher
 - [x] *Vuex* store persistence
 - [ ] **pair** command
 - [ ] **unpair** command
