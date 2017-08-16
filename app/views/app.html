@@ -10,13 +10,13 @@
           </a>
         </div>
         <div class="nav-right nav-menu">
-          <span class="nav-item">
+          <!--<span class="nav-item">
             <a class="button is-info is-inverted" v-on:click="openSettings">
               <span class="icon">
                 <i class="fa fa-cog"></i>
               </span>
             </a>
-          </span>
+          </span>-->
         </div>
       </div>
     </header>
@@ -32,6 +32,13 @@
     <nav class="tabs is-boxed is-fullwidth">
       <div class="container">
         <ul>
+
+          <li v-on:click="openSettings"
+              v-bind:class="{ 'is-active': currentView === 'settings-view' }">
+            <a>
+              Settings
+            </a>
+          </li>
 
           <li v-for="profile in profiles"
               v-bind:class="{ 'is-active': profile.active }"
