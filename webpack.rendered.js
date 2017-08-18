@@ -1,9 +1,16 @@
+const nodeExternals = require('webpack-node-externals')
+
 module.exports = {
   devtool: 'source-map',
   target: 'electron-renderer',
   entry: {
     rendered: './app/rendered.js'
   },
+  externals: [
+    nodeExternals({
+      whitelist: [ 'vue' ]
+    })
+  ],
   output: {
     filename: './out/[name].js'
   },
