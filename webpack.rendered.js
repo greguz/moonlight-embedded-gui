@@ -16,15 +16,8 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.html$/,
-      use: [ {
-        loader: 'html-loader',
-        options: {
-          minimize: false,
-          removeComments: false,
-          collapseWhitespace: false
-        }
-      }]
+      test: /\.vue$/,
+      loader: 'vue-loader'
     }]
   },
   node: {
@@ -33,7 +26,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      vue: 'vue/dist/vue.js'
+      'vue$': 'vue/dist/vue.esm.js'
     }
   }
 }

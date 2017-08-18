@@ -17,11 +17,7 @@ export const getters = {
    */
 
   activeProfile (state, getters) {
-    for (let profile of state) {
-      if (profile.active) return profile
-    }
-
-    return null
+    return state.find(p => p.active) || null
   }
 
 }
@@ -36,15 +32,15 @@ export const mutations = {
    * create a new profile
    */
 
-  createProfile (state, data = {}) {
+  createProfile (state, { name = 'New profile', host = null }) {
     for (let profile of state) {
       profile.active = false
     }
 
     state.push({
       id: uuid(),
-      name: data.name || 'New profile',
-      host: data.host || null,
+      name,
+      host,
       paired: false,
       active: true,
       apps: []
@@ -55,7 +51,7 @@ export const mutations = {
    * update a profile data
    */
 
-  updateProfile (state, data) {
+  updateActiveProfile (state, data) {
     Object.assign(state.find(p => p.active), data)
   },
 
