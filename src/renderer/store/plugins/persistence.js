@@ -3,6 +3,8 @@ import fs from 'fs-extra'
 import os from 'os'
 import VuexPersistence from 'vuex-persist'
 
+// TODO move config file here on dev mode
+// TODO choose a better place for the config file
 const FILE = path.join(os.homedir(), 'moonlight.json')
 
 const persistence = new VuexPersistence({

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import store from './store'
-import App from './views/app.vue'
+import App from './App'
+
+// Vue.config.productionTip = false
 
 export default new Vue({
   el: '#app',

@@ -75,9 +75,9 @@
 </template>
 
 <script>
-import Settings from './settings.vue'
-import Profile from './profile.vue'
-import Notification from '../components/notification.vue'
+import Settings from './views/Settings.vue'
+import Profile from './views/Profile.vue'
+import Notification from './components/Notification.vue'
 
 export default {
 

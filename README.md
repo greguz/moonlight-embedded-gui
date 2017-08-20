@@ -2,31 +2,33 @@
 
 Electron GUI for [moonlight embedded](https://github.com/irtimmer/moonlight-embedded)
 
-## Software stack
+## Setup
 
-- Node
-- Electron
-- Vue 2.0
-- Vuex
+``` bash
+# install dependencies
+npm install
 
-## Requirements
+# serve with hot reload at localhost:9080
+npm run dev
 
-- Raspberry Pi
-- Arch linux
-- **moonlight** installed
+# build electron application for production
+npm run build
+
+# run unit tests
+npm test
+
+# lint all JS/Vue component files in `src/`
+npm run lint
+```
 
 ## TODOs
 
-- [ ] *Vue* debug tools
-- [x] *Gulp* integration
-- [ ] file watcher
 - [x] *Vuex* store persistence
+- [ ] UI (components, CSS, main views)
+- [ ] i18n (italian and english)
 - [ ] **pair** command
 - [ ] **unpair** command
 - [ ] **stream** command
 - [ ] **quit** command
 - [ ] **list** command (list all available applications)
-- [ ] i18n (italian and english)
-- [ ] UI (components, CSS, main views)
 - [ ] tests
-- [ ] production mode (electron package, webpack optimizations)
