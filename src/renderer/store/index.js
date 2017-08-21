@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import isDev from 'electron-is-dev'
 
 import * as command from './modules/command'
 import * as moonlight from './modules/moonlight'
@@ -14,7 +13,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 
-  strict: isDev,
+  strict: true, // TODO disable on production
 
   state: { },
 
