@@ -1,64 +1,16 @@
 <template>
 <section id="app" class="hero is-info is-fullheight">
 
-  <!-- Hero header: will stick at the top -->
   <div class="hero-head">
-    <header class="nav">
-      <div class="container">
-        <div class="nav-left">
-          <a class="nav-item">
-            <img src="http://bulma.io/images/bulma-type-white.png" alt="Logo" />
-          </a>
-        </div>
-        <div class="nav-right nav-menu">
-          <!--<span class="nav-item">
-            <a class="button is-info is-inverted" v-on:click="openSettings">
-              <span class="icon">
-                <i class="fa fa-cog"></i>
-              </span>
-            </a>
-          </span>-->
-        </div>
-      </div>
-    </header>
+    <app-header></app-header>
   </div>
 
-  <!-- Hero content: will be in the middle -->
   <div class="hero-body">
     <component :is="currentView"></component>
   </div>
 
-  <!-- Hero footer: will stick at the bottom -->
   <div class="hero-foot">
-    <nav class="tabs is-boxed is-fullwidth">
-      <div class="container">
-        <ul>
-
-          <li v-on:click="openSettings"
-              v-bind:class="{ 'is-active': currentView === 'settings-view' }">
-            <a>
-              Settings
-            </a>
-          </li>
-
-          <li v-for="profile in profiles"
-              v-bind:key="profile.id"
-              v-bind:class="{ 'is-active': profile.active }"
-              v-on:click="openProfile(profile)">
-            <a>
-              {{ profile.name }}
-            </a>
-          </li>
-
-          <li v-on:click="createProfile">
-            <a>
-              <i class="fa fa-plus-square"></i>
-            </a>
-          </li>
-
-        </ul>
-      </div>
-    </nav>
+    <app-footer></app-footer>
   </div>
 
   <notification
@@ -78,15 +30,14 @@
 import Settings from './views/Settings.vue'
 import Profile from './views/Profile.vue'
 import Notification from './components/Notification.vue'
+import Header from './views/Header.vue'
+import Footer from './views/Footer.vue'
 
 export default {
 
   computed: {
     currentView: function () {
-      return this.$store.getters.activeProfile ? 'profile-view' : 'settings-view'
-    },
-    profiles: function () {
-      return this.$store.state.profiles
+      return this.$store.getters.activeProfile ? 'profile-form' : 'settings-form'
     },
     notifications: function () {
       return this.$store.state.notifications
@@ -94,17 +45,6 @@ export default {
   },
 
   methods: {
-    openSettings: function () {
-      this.$store.commit('unsetActiveProfile')
-    },
-    createProfile: function () {
-      this.$store.commit('createProfile')
-    },
-    openProfile: function (profile) {
-      if (!profile.active) {
-        this.$store.commit('setProfileAsActive', profile)
-      }
-    },
     dismissNotification: function (notification) {
       this.$store.commit('deleteNotification', notification)
     }
@@ -112,8 +52,10 @@ export default {
 
   components: {
     'notification': Notification,
-    'settings-view': Settings,
-    'profile-view': Profile
+    'settings-form': Settings,
+    'profile-form': Profile,
+    'app-header': Header,
+    'app-footer': Footer
   }
 
 }
