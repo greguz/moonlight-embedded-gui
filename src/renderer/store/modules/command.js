@@ -1,4 +1,4 @@
-import { spawn } from 'child_process'
+import { spawn, fork } from 'child_process'
 
 /**
  * module globals
@@ -18,6 +18,8 @@ function getDefaultState () {
     options: {},
     err: null,
     alive: false,
+    stdout: null,
+    stderr: null,
     ts: new Date()
   }
 }
@@ -91,25 +93,32 @@ export const actions = {
    * spawn a command process
    */
 
-  spawnCommand ({ commit, dispatch, getters, state }, { command, args, options }) {
+  spawnCommand ({ commit, dispatch, getters, state }, { command, args, options = {} }) {
     if (state.alive) {
       return Promise.reject(new Error('Another command is running'))
     }
 
+    if (options.shell == null) options.shell = process.platform === 'win32'
     try {
-      COMMAND_PROCESS = spawn(command, args, options)
+      COMMAND_PROCESS = (/\.js$/i.test(command) ? fork : spawn)(command, args, options)
     } catch (err) {
       return Promise.reject(err)
     }
 
-    commit('setCommandStatus', { command, args, options })
+    commit('setCommandStatus', { command, args, options, stdout: '', stderr: '' })
 
     return new Promise((resolve, reject) => {
-      COMMAND_PROCESS.stdout.once('data', () => {
-        commit('updateCommandStatus', { pid: COMMAND_PROCESS.pid, alive: true })
-        resolve(COMMAND_PROCESS)
+      COMMAND_PROCESS.stdout.on('data', data => {
+        commit('updateCommandStatus', { stdout: state.stdout + data.toString('utf8') })
+      })
+      COMMAND_PROCESS.stderr.on('data', data => {
+        commit('updateCommandStatus', { stderr: state.stderr + data.toString('utf8') })
       })
 
+      COMMAND_PROCESS.stdout.once('data', () => {
+        commit('updateCommandStatus', { pid: COMMAND_PROCESS.pid, alive: true })
+        resolve()
+      })
       COMMAND_PROCESS.once('error', (err) => {
         commit('updateCommandStatus', { err, alive: false })
         reject(err)
