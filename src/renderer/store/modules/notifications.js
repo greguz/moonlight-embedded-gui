@@ -22,12 +22,13 @@ export const mutations = {
    * create a new notification
    */
 
-  createNotification (state, { type = 'warning', message, dismissable = true }) {
+  createNotification (state, { type = 'warning', message, dismissable = true, timeout }) {
     state.push({
       id: uuid(),
       type,
       message,
-      dismissable
+      dismissable,
+      timeout
     })
   },
 
@@ -45,27 +46,4 @@ export const mutations = {
  * Async store functions
  */
 
-export const actions = {
-
-  /**
-   * create notification and dismiss it after timeout
-   */
-
-  showNotification ({ commit, dispatch, getters, state }, { type, message, dismissable, timeout = 5000 }) {
-    commit('createNotification', {
-      type,
-      message,
-      dismissable
-    })
-
-    const notification = state[ state.length - 1 ]
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        commit('deleteNotification', notification)
-        resolve()
-      }, timeout)
-    })
-  }
-
-}
+export const actions = { }
