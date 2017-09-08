@@ -113,9 +113,17 @@ export const actions = {
    * Spawn a new moonlight command instance
    */
 
-  spawnMoonlight ({ commit, dispatch, getters, state }, { action, profile }) {
+  async spawnMoonlight ({ commit, dispatch, getters, state }, { action, profile, verify }) {
+    profile = profile || getters.activeProfile
+    verify = verify || (() => Promise.resolve())
+
+    if (!profile) throw new Error('Profile not found')
+    await verify(profile)
+
     return dispatch('spawnCommand', {
       command: 'moonlight',
+      // TODO use fake moonlight while NOT testing on a RasPi
+      // command: path.join(process.cwd(), 'bin', 'moonlight.js'),
       args: [
         action,
         ...getMoonlightOptionsFromState(state),
@@ -133,13 +141,14 @@ export const actions = {
    */
 
   pair ({ commit, dispatch, getters, state }, profile) {
-    if (profile.paired) {
-      return Promise.reject(new Error('Profile is already paired'))
-    }
-
     return dispatch('spawnMoonlight', {
       action: 'pair',
-      profile
+      profile,
+      verify: async (profile) => {
+        if (profile.paired) {
+          throw new Error('Profile is already paired')
+        }
+      }
     })
   },
 
@@ -148,13 +157,14 @@ export const actions = {
    */
 
   unpair ({ commit, dispatch, getters, state }, profile) {
-    if (!profile.paired) {
-      return Promise.reject(new Error('This profile is not paired'))
-    }
-
     return dispatch('spawnMoonlight', {
       action: 'unpair',
-      profile
+      profile,
+      verify: async (profile) => {
+        if (!profile.paired) {
+          throw new Error('This profile is not paired')
+        }
+      }
     })
   },
 
@@ -163,13 +173,14 @@ export const actions = {
    */
 
   stream ({ commit, dispatch, getters, state }, profile) {
-    if (!profile.paired) {
-      return Promise.reject(new Error('This profile is not paired'))
-    }
-
     return dispatch('spawnMoonlight', {
       action: 'stream',
-      profile
+      profile,
+      verify: async (profile) => {
+        if (!profile.paired) {
+          throw new Error('This profile is not paired')
+        }
+      }
     })
   },
 
@@ -178,13 +189,14 @@ export const actions = {
    */
 
   list ({ commit, dispatch, getters, state }, profile) {
-    if (!profile.paired) {
-      return Promise.reject(new Error('This profile is not paired'))
-    }
-
     return dispatch('spawnMoonlight', {
       action: 'list',
-      profile
+      profile,
+      verify: async (profile) => {
+        if (!profile.paired) {
+          throw new Error('This profile is not paired')
+        }
+      }
     })
   },
 
@@ -193,13 +205,14 @@ export const actions = {
    */
 
   quit ({ commit, dispatch, getters, state }, profile) {
-    if (!profile.paired) {
-      return Promise.reject(new Error('This profile is not paired'))
-    }
-
     return dispatch('spawnMoonlight', {
       action: 'quit',
-      profile
+      profile,
+      verify: async (profile) => {
+        if (!profile.paired) {
+          throw new Error('This profile is not paired')
+        }
+      }
     })
   }
 
