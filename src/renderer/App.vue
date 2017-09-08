@@ -19,6 +19,7 @@
     :type="n.type"
     :message="n.message"
     :dismissable="n.dismissable"
+    :timeout="n.timeout"
     v-on:dismiss="dismissNotification(n)"
     >
   </notification>

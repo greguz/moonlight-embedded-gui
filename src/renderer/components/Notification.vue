@@ -22,12 +22,22 @@ export default {
     message: {
       type: String,
       required: true
+    },
+    timeout: {
+      type: Number,
+      default: null
     }
   },
 
   methods: {
     dismiss: function () {
       this.$emit('dismiss')
+    }
+  },
+
+  mounted: function () {
+    if (typeof this.timeout === 'number') {
+      setTimeout(() => this.dismiss(), this.timeout)
     }
   }
 
