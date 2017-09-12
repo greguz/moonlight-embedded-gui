@@ -109,16 +109,20 @@ export const actions = {
 
     return new Promise((resolve, reject) => {
       COMMAND_PROCESS.stdout.on('data', data => {
-        commit('updateCommandStatus', { stdout: state.stdout + data.toString('utf8') })
-      })
-      COMMAND_PROCESS.stderr.on('data', data => {
-        commit('updateCommandStatus', { stderr: state.stderr + data.toString('utf8') })
-      })
-
-      COMMAND_PROCESS.stdout.once('data', () => {
-        commit('updateCommandStatus', { pid: COMMAND_PROCESS.pid, alive: true })
+        commit('updateCommandStatus', {
+          pid: COMMAND_PROCESS.pid,
+          alive: true,
+          stdout: state.stdout + data.toString('utf8')
+        })
         resolve()
       })
+
+      COMMAND_PROCESS.stderr.on('data', data => {
+        commit('updateCommandStatus', {
+          stderr: state.stderr + data.toString('utf8')
+        })
+      })
+
       COMMAND_PROCESS.once('error', (err) => {
         commit('updateCommandStatus', { err, alive: false })
         reject(err)
@@ -143,7 +147,7 @@ export const actions = {
    * kill running command
    */
 
-  killCommand ({ commit, dispatch, getters, state }, { signal }) {
+  killCommand ({ commit, dispatch, getters, state }, { signal = 'SIGKILL' }) {
     let process = getters.commandProcess
 
     if (!process) {
