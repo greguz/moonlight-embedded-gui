@@ -40,13 +40,13 @@
 export default {
 
   computed: {
-    paired: function () {
+    paired () {
       return this.$store.getters.activeProfile.paired
     }
   },
 
   methods: {
-    deleteProfile: function () {
+    deleteProfile () {
       this.$store.commit('deleteProfile', this.$store.getters.activeProfile)
     },
     pairProfile: async function () {

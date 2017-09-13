@@ -34,22 +34,22 @@
 export default {
 
   computed: {
-    activeProfile: function () {
+    activeProfile () {
       return this.$store.getters.activeProfile
     },
-    profiles: function () {
+    profiles () {
       return this.$store.state.profiles
     }
   },
 
   methods: {
-    openSettings: function () {
+    openSettings () {
       this.$store.commit('unsetActiveProfile')
     },
-    createProfile: function () {
+    createProfile () {
       this.$store.commit('createProfile')
     },
-    openProfile: function (profile) {
+    openProfile (profile) {
       if (!profile.active) {
         this.$store.commit('setProfileAsActive', profile)
       }

@@ -26,7 +26,7 @@ export default {
       default: null
     }
   },
-  data() {
+  data () {
     return {
       timer: null,
       dismissed: false
@@ -68,7 +68,7 @@ export default {
     this.clearTimer()
   },
   watch: {
-    show(value) {
+    show (value) {
       if (value && !this.dismissed) {
         this.startTimer()
       }

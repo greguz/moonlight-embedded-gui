@@ -27,18 +27,18 @@ export default {
 
   computed: {
     name: {
-      get: function () {
+      get () {
         return this.$store.getters.activeProfile.name
       },
-      set: function (value) {
+      set (value) {
         this.$store.commit('updateActiveProfile', { name: value })
       }
     },
     host: {
-      get: function () {
+      get () {
         return this.$store.getters.activeProfile.host
       },
-      set: function (value) {
+      set (value) {
         this.$store.commit('updateActiveProfile', { host: value })
       }
     }

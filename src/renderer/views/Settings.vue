@@ -104,10 +104,10 @@ const TYPES = {
 
 function makeComputedProperty (name, cast = TYPES.string) {
   return {
-    get: function () {
+    get () {
       return this.$store.state.moonlight[ name ]
     },
-    set: function (value) {
+    set (value) {
       this.$store.commit('updateMoonlightOptions', { [name]: cast(value) })
     }
   }
@@ -138,7 +138,7 @@ function makePropertyOptionsFromEnum (enumerator) {
 
 export default {
 
-  data: function () {
+  data () {
     return {
       codec_options: makePropertyOptionsFromEnum(ENUMS.CODEC),
       fps_options: [ 30, 60 ]

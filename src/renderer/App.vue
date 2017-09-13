@@ -37,16 +37,16 @@ import Footer from './views/Footer.vue'
 export default {
 
   computed: {
-    currentView: function () {
+    currentView () {
       return this.$store.getters.activeProfile ? 'profile-form' : 'settings-form'
     },
-    notifications: function () {
+    notifications () {
       return this.$store.state.notifications
     }
   },
 
   methods: {
-    dismissNotification: function (notification) {
+    dismissNotification (notification) {
       this.$store.commit('deleteNotification', notification)
     }
   },
