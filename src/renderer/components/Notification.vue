@@ -1,45 +1,78 @@
 <template>
-<div v-bind:class="[ 'notification', 'is-' + type ]">
+<div v-if="localShow" :class="notificationClass">
   <button class="delete" v-if="dismissable" v-on:click="dismiss"></button>
-  <span v-html="message">
-    <!-- message text -->
-  </span>
+  <slot></slot>
 </div>
 </template>
 
 <script>
-export default {
+import colorMixin from '../mixins/color'
 
+export default {
+  mixins: [
+    colorMixin
+  ],
   props: {
-    type: {
-      type: String,
-      default: 'primary'
-    },
-    dismissable: {
+    show: {
       type: Boolean,
       default: true
     },
-    message: {
-      type: String,
-      required: true
+    dismissable: {
+      type: Boolean,
+      default: false
     },
     timeout: {
       type: Number,
       default: null
     }
   },
-
-  methods: {
-    dismiss: function () {
-      this.$emit('dismiss')
+  data() {
+    return {
+      timer: null,
+      dismissed: false
     }
   },
-
-  mounted: function () {
-    if (typeof this.timeout === 'number') {
-      setTimeout(() => this.dismiss(), this.timeout)
+  computed: {
+    notificationClass () {
+      return [
+        'notification',
+        this.colorClass
+      ]
+    },
+    localShow () {
+      return !this.dismissed && this.show
+    }
+  },
+  methods: {
+    dismiss () {
+      if (!this.dismissed) {
+        this.dismissed = true
+        this.$emit('dismiss')
+      }
+    },
+    startTimer () {
+      if (!this.dismissed && typeof this.timer !== 'number' && typeof this.timeout === 'number') {
+        this.timer = setTimeout(() => this.dismiss(), this.timeout)
+      }
+    },
+    clearTimer () {
+      if (typeof this.timer === 'number') {
+        clearTimeout(this.timer)
+      }
+    }
+  },
+  mounted () {
+    this.startTimer()
+  },
+  destroyed () {
+    this.clearTimer()
+  },
+  watch: {
+    show(value) {
+      if (value && !this.dismissed) {
+        this.startTimer()
+      }
     }
   }
-
 }
 </script>
