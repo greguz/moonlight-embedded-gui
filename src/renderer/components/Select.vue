@@ -138,13 +138,13 @@ export default {
     }
   },
   watch: {
-    localValue (value, old_value) {
-      if (value !== old_value) {
+    localValue (value, oldValue) {
+      if (value !== oldValue) {
         this.$emit('input', this.selectedValue)
       }
     },
-    value (value, old_value) {
-      if (value !== old_value) {
+    value (value, oldValue) {
+      if (value !== oldValue) {
         this.localValue = value
       }
     }
