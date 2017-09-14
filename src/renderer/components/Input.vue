@@ -27,7 +27,7 @@ import sizeMixin from '../mixins/size'
 import stateMixin from '../mixins/field-state'
 
 export default {
-   mixins: [
+  mixins: [
     fieldMixin,
     colorMixin,
     sizeMixin,
@@ -99,29 +99,29 @@ export default {
       ]
     }
   },
-  watch:{
-    value(newVal, oldVal) {
-      if (newVal !== oldVal){
+  watch: {
+    value (newVal, oldVal) {
+      if (newVal !== oldVal) {
         this.localValue = newVal
       }
     },
-    localValue(newVal, oldVal) {
-      if (newVal !== oldVal){
+    localValue (newVal, oldVal) {
+      if (newVal !== oldVal) {
         this.$emit('input', newVal)
       }
     }
   },
   methods: {
-    onInput(value, e) {
+    onInput (value, e) {
       if (!this.lazy) {
         this.localValue = this.formatter(value, e)
       }
     },
-    onChange(value, e) {
+    onChange (value, e) {
       this.localValue = this.formatter(value, e)
       this.$emit('change', this.localValue)
     },
-    focus() {
+    focus () {
       if (!this.disabled) {
         this.$el.focus()
       }
