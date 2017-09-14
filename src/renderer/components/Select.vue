@@ -34,6 +34,10 @@ export default {
     stateMixin
   ],
   props: {
+    options: {
+      type: [ Array, Object ],
+      default: () => []
+    },
     valueField: {
       type: String,
       default: 'value'
@@ -51,59 +55,43 @@ export default {
       default: 0
     }
   },
+  data () {
+    return {
+      localValue: this.value
+    }
+  },
   computed: {
-    formOptions () {
+    selectOptions () {
       let options = this.options || {}
 
       if (options instanceof Array) {
-        // Normalize flat arrays to object Array
-        options = options.map(option => {
+        return options.map(option => {
           if (typeof option === 'object') {
             return {
               value: option[this.valueField],
               text: option[this.textField],
               disabled: option.disabled || false
             }
-          }
-
-          return {
-            text: String(option),
-            value: option || {}
+          } else {
+            return {
+              text: String(option),
+              value: option || {}
+            }
           }
         })
       } else {
-        // Normalize Objects keys to Array
-        options = Object.keys(options).map(value => {
+        return Object.keys(options).map(value => {
           let option = options[value] || {}
 
-          // Resolve text
           if (typeof option !== 'object') {
             option = {text: String(option)}
           }
 
-          // Resolve value (uses key as value if not provided)
           option.value = option[this.valueField] || value
-
-          // Resolve text field (uses key as value if not provided)
           option.text = option[this.textField] || value
 
           return option
         })
-      }
-
-      return options
-    },
-    selectedValue () {
-      const formOptions = this.formOptions
-      if (this.returnObject && !this.multiple) {
-        for (let i = 0; i < formOptions.length; i++) {
-          if (formOptions[i].value === this.localValue) {
-            return formOptions[i]
-          }
-        }
-        return null
-      } else {
-        return this.localValue
       }
     },
     divClass () {
@@ -124,7 +112,7 @@ export default {
   watch: {
     localValue (value, oldValue) {
       if (value !== oldValue) {
-        this.$emit('input', this.selectedValue)
+        this.$emit('input', value)
       }
     },
     value (value, oldValue) {
