@@ -21,29 +21,19 @@
 </template>
 
 <script>
+import fieldMixin from '../mixins/field'
 import colorMixin from '../mixins/color'
 import sizeMixin from '../mixins/size'
+import stateMixin from '../mixins/field-state'
 
 export default {
   mixins: [
+    fieldMixin,
     colorMixin,
-    sizeMixin
+    sizeMixin,
+    stateMixin
   ],
   props: {
-    name: {
-      type: String
-    },
-    /*id: {
-      type: String
-    },*/
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
     valueField: {
       type: String,
       default: 'value'
@@ -51,11 +41,6 @@ export default {
     textField: {
       type: String,
       default: 'text'
-    },
-    state: {
-      type: String,
-      validator: value => value == null || [ 'loading', 'hovered', 'focused' ].includes(value),
-      default: null
     },
     multiple: {
       type: Boolean,
@@ -127,13 +112,12 @@ export default {
         this.multiple ? 'is-multiple' : null,
         this.colorClass,
         this.sizeClass,
-        this.state === 'loading' ? 'is-loading' : null
+        this.state === 'loading' ? this.stateClass : null
       ]
     },
     selectClass () {
       return [
-        this.state === 'hovered' ? 'is-hovered' : null,
-        this.state === 'focused' ? 'is-focused' : null
+        this.state !== 'loading' ? this.stateClass : null
       ]
     }
   },
