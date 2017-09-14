@@ -1,8 +1,5 @@
 export default {
   props: {
-    // id: {
-    //   type: String
-    // },
     name: {
       type: String,
       default: null
@@ -14,6 +11,9 @@ export default {
     required: {
       type: Boolean,
       default: false
+    },
+    value: {
+      default: null
     }
   }
 }
