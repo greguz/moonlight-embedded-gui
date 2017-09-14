@@ -2,6 +2,15 @@
 
 Electron GUI for [moonlight embedded](https://github.com/irtimmer/moonlight-embedded)
 
+## Software stack
+
+- [Node.js](https://nodejs.org/)
+- [Electron](https://electron.atom.io/)
+- [Vue](https://vuejs.org/)
+- [Vuex](https://vuex.vuejs.org/)
+- [Bulma](http://bulma.io/)
+- [moonlight embedded](https://github.com/irtimmer/moonlight-embedded)
+
 ## Setup
 
 ``` bash
@@ -24,11 +33,13 @@ npm run lint
 ## TODOs
 
 - [x] *Vuex* store persistence
-- [ ] UI (components, CSS, main views)
+- [ ] *Bulma* components
+- [ ] main views
+- [ ] customize styles
 - [ ] i18n (italian and english)
 - [ ] **pair** command
 - [ ] **unpair** command
 - [ ] **stream** command
 - [ ] **quit** command
 - [ ] **list** command (list all available applications)
-- [ ] tests
+- [ ] **tests!**
