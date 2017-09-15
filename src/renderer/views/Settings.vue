@@ -18,12 +18,7 @@
         <div class="field-body">
           <div class="field is-narrow">
             <div class="control">
-              <div class="select is-fullwidth">
-                <select v-model="surround">
-                  <option value="true">Enable</option>
-                  <option value="false">Disable</option>
-                </select>
-              </div>
+              <b-select v-model="surround" :options="surround_options"></b-select>
             </div>
           </div>
         </div>
@@ -38,11 +33,7 @@
         <div class="field-body">
           <div class="field is-narrow">
             <div class="control">
-              <div class="select is-fullwidth">
-                <select v-model="codec">
-                  <option v-for="option in codec_options" :value="option.value">{{ option.label }}</option>
-                </select>
-              </div>
+              <b-select v-model="codec" :options="codec_options"></b-select>
             </div>
           </div>
         </div>
@@ -57,11 +48,7 @@
         <div class="field-body">
           <div class="field is-narrow">
             <div class="control">
-              <div class="select is-fullwidth">
-                <select v-model="fps">
-                  <option v-for="option in fps_options">{{ option }}</option>
-                </select>
-              </div>
+              <b-select v-model="fps" :options="fps_options"></b-select>
             </div>
           </div>
         </div>
@@ -84,6 +71,7 @@
 
 <script>
 import * as ENUMS from '../enums/moonlight'
+import bSelect from '../components/select'
 
 /**
   * property types
@@ -124,7 +112,7 @@ function makePropertyOptionsFromEnum (enumerator) {
   for (let prop in enumerator) {
     if (prop !== 'properties') {
       options.push({
-        label: prop,
+        text: prop,
         value: enumerator[ prop ]
       })
     }
@@ -137,19 +125,29 @@ function makePropertyOptionsFromEnum (enumerator) {
   */
 
 export default {
-
   data () {
     return {
       codec_options: makePropertyOptionsFromEnum(ENUMS.CODEC),
-      fps_options: [ 30, 60 ]
+      fps_options: [
+        30,
+        60
+      ],
+      surround_options: [{
+        text: 'Enabled',
+        value: true
+      }, {
+        text: 'Disabled',
+        value: false
+      }]
     }
   },
-
   computed: {
     surround: makeComputedProperty('surround', TYPES.bool),
     codec: makeComputedProperty('codec', TYPES.int),
     fps: makeComputedProperty('fps', TYPES.int)
+  },
+  components: {
+    bSelect
   }
-
 }
 </script>
