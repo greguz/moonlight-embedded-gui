@@ -27,7 +27,7 @@ const persistence = new VuexPersistence({
 
   reducer: (state) => {
     return {
-      moolight: state.moonlight,
+      moonlight: state.moonlight,
       profiles: state.profiles,
       settings: state.settings
     }
