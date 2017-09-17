@@ -71,7 +71,7 @@
 
 <script>
 import * as ENUMS from '../enums/moonlight'
-import bSelect from '../components/select'
+import bSelect from '../components/Select.vue'
 
 /**
   * property types
