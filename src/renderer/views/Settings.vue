@@ -74,29 +74,19 @@ import * as ENUMS from '../enums/moonlight'
 import bSelect from '../components/Select.vue'
 
 /**
-  * property types
-  */
-
-const TYPES = {
-  'string': value => value,
-  'int': value => parseInt(value, 10),
-  'bool': value => value === 'true'
-}
-
-/**
   * make vuex computed property function by property name
   * @param {string} name
   * @param {function} [cast]
   * @return {any}
   */
 
-function makeComputedProperty (name, cast = TYPES.string) {
+function makeComputedProperty (name) {
   return {
     get () {
       return this.$store.state.moonlight[ name ]
     },
     set (value) {
-      this.$store.commit('updateMoonlightOptions', { [name]: cast(value) })
+      this.$store.commit('updateMoonlightOptions', { [name]: value })
     }
   }
 }
@@ -142,9 +132,9 @@ export default {
     }
   },
   computed: {
-    surround: makeComputedProperty('surround', TYPES.bool),
-    codec: makeComputedProperty('codec', TYPES.int),
-    fps: makeComputedProperty('fps', TYPES.int)
+    surround: makeComputedProperty('surround'),
+    codec: makeComputedProperty('codec'),
+    fps: makeComputedProperty('fps')
   },
   components: {
     bSelect
