@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import os from 'os'
+import path from 'path'
 
 import { pick } from '../../utils/object'
 
@@ -36,7 +37,11 @@ export default new Vuex.Store({
 
   plugins: [
     makePersistencePlugin({
-      dir: os.homedir(), // TODO choose a better place for the config file
+      dir: process.env.APPDATA || (
+        process.platform === 'darwin'
+          ? path.join(os.homedir(), 'Library', 'Preferences')
+          : path.join(os.homedir(), '.config')
+      ),
       filename: 'moonlight',
       reducer: (state) => pick(state, 'moonlight', 'profiles', 'settings')
     })
