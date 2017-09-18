@@ -1,38 +1,74 @@
 import path from 'path'
-import fs from 'fs-extra'
-import os from 'os'
+import fs from 'fs'
 import VuexPersistence from 'vuex-persist'
 
-// TODO move config file here on dev mode
-// TODO choose a better place for the config file
-const FILE = path.join(os.homedir(), 'moonlight.json')
+/**
+ * read and parse a JSON file without throwing errors
+ */
 
-const persistence = new VuexPersistence({
-
-  key: 'moonlight-embedded-gui',
-
-  restoreState: (key) => {
-    return fs.readJsonSync(FILE, {
-      encoding: 'utf8',
-      throws: false
-    })
-  },
-
-  saveState: (key, state) => {
-    fs.outputJsonSync(FILE, state, {
-      encoding: 'utf8',
-      spaces: 2
-    })
-  },
-
-  reducer: (state) => {
-    return {
-      moonlight: state.moonlight,
-      profiles: state.profiles,
-      settings: state.settings
-    }
+function readJsonSync (file, options) {
+  if (!fs.existsSync(file)) return {}
+  const content = fs.readFileSync(file, options)
+  let parsed
+  try {
+    parsed = JSON.parse(content)
+  } catch (err) {
+    parsed = {}
   }
+  return parsed
+}
 
-})
+/**
+ * ensure that dir exists inside the FS
+ */
 
-export default persistence.plugin
+function ensureDirSync (dir, mode) {
+  if (fs.existsSync(dir)) {
+    return false
+  } else {
+    ensureDirSync(path.dirname(dir))
+    fs.mkdirSync(dir, mode)
+    return true
+  }
+}
+
+/**
+ * write a JSON file and ensure dirs hierarchy
+ */
+
+function outputJsonSync (file, object, options = {}) {
+  ensureDirSync(path.dirname(file))
+  const json = JSON.stringify(object, options.replacer, options.spaces)
+  fs.writeFileSync(file, json, options)
+}
+
+/**
+ * make store JSON persistance plugin
+ *
+ * @param {Object} options
+ * @param {string} options.dir                      store dir path
+ * @param {string} [options.filename='moonlight']   store filename
+ * @param {string} [options.encoding='utf8']        file encoding
+ * @param {number|string} [options.spaces=2]        JSON indentation
+ * @param {Function} [options.reducer]              store reducer function
+ * @return {Function}
+ */
+
+export default function makePlugin ({
+  dir,
+  filename = 'moonlight',
+  encoding = 'utf8',
+  spaces = 2,
+  reducer
+}) {
+  const key = filename.replace(/\.json$/i, '')
+  const file = path.join(dir, key + '.json')
+  const persist = new VuexPersistence({
+    key,
+    restoreState: (key) => readJsonSync(file, { encoding }),
+    saveState: (key, state) => outputJsonSync(file, state, { encoding, spaces }),
+    reducer
+  })
+
+  return persist.plugin
+}

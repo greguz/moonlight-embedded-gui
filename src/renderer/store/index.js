@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import os from 'os'
+
+import { pick } from '../../utils/object'
 
 import * as command from './modules/command'
 import * as moonlight from './modules/moonlight'
@@ -7,13 +10,13 @@ import * as notifications from './modules/notifications'
 import * as profiles from './modules/profiles'
 import * as settings from './modules/settings'
 
-import persistencePlugin from './plugins/persistence'
+import makePersistencePlugin from './plugins/persistence'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 
-  strict: true, // TODO disable on production
+  strict: process.env.NODE_ENV !== 'production',
 
   state: { },
 
@@ -32,7 +35,11 @@ export default new Vuex.Store({
   },
 
   plugins: [
-    persistencePlugin
+    makePersistencePlugin({
+      dir: os.homedir(), // TODO choose a better place for the config file
+      filename: 'moonlight',
+      reducer: (state) => pick(state, 'moonlight', 'profiles', 'settings')
+    })
   ]
 
 })
