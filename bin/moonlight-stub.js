@@ -35,7 +35,7 @@ program
   .option('-f, --fail [reason]', 'fail pairing')
   .action((host, options) => {
     out(
-      `Fake Moonlight Embedded ${program.version()}`,
+      `Moonlight Embedded ${program.version()}`,
       `Connect to ${host}...`,
       `${program.model}, GFE ${program.gfe} (protocol version ${program.protocol})`,
       `Please enter the following PIN on the target PC: ${options.code}`
