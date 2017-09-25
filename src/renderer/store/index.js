@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import i18n from 'vuex-i18n'
 import os from 'os'
 import path from 'path'
 
@@ -15,7 +16,7 @@ import makePersistencePlugin from './plugins/persistence'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
 
   strict: process.env.NODE_ENV !== 'production',
 
@@ -48,3 +49,7 @@ export default new Vuex.Store({
   ]
 
 })
+
+Vue.use(i18n.plugin, store)
+
+export default store
