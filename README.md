@@ -33,10 +33,10 @@ npm run lint
 ## TODOs
 
 - [x] *Vuex* store persistence
+- [x] i18n integration
 - [ ] *Bulma* components
 - [ ] main views
 - [ ] customize styles
-- [ ] i18n (italian and english)
 - [ ] **pair** command
 - [ ] **unpair** command
 - [ ] **stream** command
