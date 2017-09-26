@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import i18n from 'vuex-i18n'
-import os from 'os'
-import path from 'path'
+import { remote } from 'electron'
 
 import { pick } from '../../utils/object'
 
@@ -38,11 +37,7 @@ export const store = new Vuex.Store({
 
   plugins: [
     makePersistencePlugin({
-      dir: process.env.APPDATA || (
-        process.platform === 'darwin'
-          ? path.join(os.homedir(), 'Library', 'Preferences')
-          : path.join(os.homedir(), '.config')
-      ),
+      dir: remote.app.getPath('userData'),
       filename: 'moonlight',
       reducer: (state) => pick(state, 'moonlight', 'profiles', 'settings')
     })
@@ -51,5 +46,6 @@ export const store = new Vuex.Store({
 })
 
 Vue.use(i18n.plugin, store)
+Vue.i18n.fallback('en')
 
 export default store
