@@ -3,9 +3,11 @@ import store from './store'
 import App from './App'
 import renderErrorPage from './error'
 
-// Vue.config.productionTip = false
-
 async function bootstrap () {
+  // load default locale
+  await store.dispatch('loadLocale')
+
+  // render application
   return new Vue({
     el: '#app',
     store,
